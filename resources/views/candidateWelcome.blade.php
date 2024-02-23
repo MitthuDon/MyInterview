@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Candidate</title>
+    <style>
+        body {
+          background-image: url({{URL::asset('/image/welcome.jpg')}});
+            background-repeat: no-repeat;
+             background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+        </style>
 </head>
 <body>
-    <a href="#" onclick="document.getElementById('logout-form').submit();"> Logout</a>
-    <form id="logout-form" action="{{ route('candidate.logout') }}" method="POST" style="display: none;">
-        {{ csrf_field() }}
-    </form>
-    <h1>Welcome candidate</h1>
+    @include('nav')
 </body>
 </html>

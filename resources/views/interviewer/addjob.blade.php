@@ -10,54 +10,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-  <style>
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #333;
-    }
-    
-    li {
-      float: left;
-    }
-    
-    li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-    
-    li a:hover:not(.active) {
-      background-color: #111;
-    }
-    
-    .active {
-      background-color: #04AA6D;
-    }
-    </style>
-  
-    
-    <ul>
-      <li><a href="{{route('interviewer.index')}}">Home</a></li>
-      <li><a href="{{route('interviewer.addjob')}}">Add Job</a></li>
-      <li><a href="{{route('interviewer.jobs')}}">Jobs</a></li>
-      <li style="float:right"><a href="#" onclick="document.getElementById('logout-form').submit();"> Logout</a></li>
-    </ul>
-    
-        <form id="logout-form" action="{{ route('interviewer.logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-        </form>
+  @include('interviewer/nav')
+ 
 <section class="bg-light py-3 py-md-5">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
         <div class="card border border-light-subtle rounded-3 shadow-sm">
           <div class="card-body p-3 p-md-4 p-xl-5">
-            <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Register</h2>
+            <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Add New Job</h2>
     
     <!-- form begin -->
 

@@ -21,4 +21,7 @@ class interviewer extends Authenticatable
     public function jobs(){
         return $this->hasMany(job::class);
     }
+    public function interviews(){
+        return $this->hasMany(Interview::class);
+    }
 }

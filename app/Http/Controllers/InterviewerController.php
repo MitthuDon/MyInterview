@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\interviewer;
 use App\Http\Controllers\Controller;
+use App\Models\candidate;
 use App\Models\job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 
 class InterviewerController extends Controller
 {
@@ -31,7 +34,16 @@ class InterviewerController extends Controller
     public function create()
     {
         // 
-        return view('interviewer.addjob');
+        if (Auth::guard('interviewer')->check()) {
+            // User is logged in
+            // Your code here
+            return view('interviewer.addjob');
+        } else {
+            // User is not logged in
+            // Redirect the user to the login page or perform any other action
+             return redirect()->route('interviewer.index');
+        }
+        
     }
     public function addjob(Request $request, interviewer $interviewer)
     {
@@ -68,6 +80,27 @@ class InterviewerController extends Controller
             // Authentication failed
             return back()->withErrors(['email' => 'Invalid credentials']);
         }
+    }
+
+
+    public function applicants(int $jobid){
+
+        $job = job::find($jobid);
+        $interviewerID= Auth::guard('interviewer')->id();
+
+        $candidates= candidate::whereIn('id', function ($query) use ($jobid) {
+            $query->select('candidate_id')
+                ->from('candidate_job')
+                ->where('job_id', $jobid);
+        })
+        ->whereNotIn('id', function ($query) use ($jobid) {
+            $query->select('candidate_id')
+                ->from('interviews')
+                ->where('job_id', $jobid);
+        })->get();
+
+        $currentDateTime = now()->format('Y-m-d\TH:i');
+        return view('interviewer.applicants',compact(['candidates','interviewerID','jobid','currentDateTime']));
     }
 
     /**
@@ -145,7 +178,7 @@ class InterviewerController extends Controller
 
     public function logout()
     {
-        Auth::guard('candidate')->logout();
+        Auth::guard('interviewer')->logout();
          return redirect('/');
     }
 }

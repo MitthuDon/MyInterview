@@ -37,7 +37,8 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if($e instanceof NotFoundHttpException){
-            return Response::json(["error"=>"I am Batman"]);
+            $nav=null;
+            return Response::view('lost',compact('nav'));
         }
         
     }

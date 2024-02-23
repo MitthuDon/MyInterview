@@ -124,6 +124,12 @@ class CandidateController extends Controller
         return view('myjobs', compact('jobs'));
     }
     
+    public function myinterviews(){
+        $id = Auth::guard('candidate')->id();
+        $interviews = candidate::find($id)->interviews()->get();
+        // return Response::json($interviews);
+        return view('myinterviews', compact('interviews'));
+    }
 
     public function register()
     {

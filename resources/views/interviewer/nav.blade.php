@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
+
 <style>
 ul {
   list-style-type: none;
@@ -30,13 +28,11 @@ li a:hover:not(.active) {
   background-color: #04AA6D;
 }
 </style>
-</head>
-<body>
-
 <ul>
   <li><a href="{{route('interviewer.index')}}">Home</a></li>
   <li><a href="{{route('interviewer.addjob')}}">Add Job</a></li>
-  <li><a href="{{route('interviewer.jobs')}}">Jobs</a></li>
+  <li><a href="{{route('interviewer.jobs')}}">Your Jobs</a></li>
+  <li><a href="{{route('interview.index')}}">Your Interviews</a></li>
   <li style="float:right"><a href="#" onclick="document.getElementById('logout-form').submit();"> Logout</a></li>
 </ul>
 

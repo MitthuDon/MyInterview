@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
+
 <style>
 ul {
   list-style-type: none;
@@ -30,17 +28,13 @@ li a:hover:not(.active) {
   background-color: #04AA6D;
 }
 </style>
-</head>
-<body>
-
 <ul>
-  <li><a href="{{route('candidate.index')}}">Home</a></li>
-  <li><a href="{{route('candidate.jobs')}}">Jobs</a></li>
-  <li><a href="{{route('candidate.myjobs')}}">My Jobs</a></li>
-  <li><a href="{{route('candidate.myinterviews')}}">My Interviews</a></li>
+  <li><a href="{{route('interviewer.index')}}">Home</a></li>
+  <li><a href="{{route('interviewer.addjob')}}">Add Job</a></li>
+  <li><a href="{{route('interviewer.jobs')}}">Your Jobs</a></li>
   <li style="float:right"><a href="#" onclick="document.getElementById('logout-form').submit();"> Logout</a></li>
 </ul>
 
-    <form id="logout-form" action="{{ route('candidate.logout') }}" method="POST" style="display: none;">
+    <form id="logout-form" action="{{ route('interviewer.logout') }}" method="POST" style="display: none;">
         {{ csrf_field() }}
     </form>
