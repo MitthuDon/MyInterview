@@ -33,6 +33,8 @@ li a:hover:not(.active) {
   <li><a href="{{route('interviewer.addjob')}}">Add Job</a></li>
   <li><a href="{{route('interviewer.jobs')}}">Your Jobs</a></li>
   <li><a href="{{route('interview.index')}}">Your Interviews</a></li>
+  <li><a href="{{route('interview.completed')}}">Completed</a></li>
+
   <li style="float:right"><a href="#" onclick="document.getElementById('logout-form').submit();"> Logout</a></li>
 </ul>
 

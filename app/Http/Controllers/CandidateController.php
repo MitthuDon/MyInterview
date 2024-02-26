@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\candidate;
 use App\Http\Controllers\Controller;
 use App\Models\job;
+use App\Providers\LogServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -112,6 +113,7 @@ class CandidateController extends Controller
     {
         $candidate = candidate::find($candidateID);
         $candidate->jobs()->attach($job);
+        LogServiceProvider::applied($job,$candidateID);
         return Response::json([
             'reload' => true,
         ]);

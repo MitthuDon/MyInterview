@@ -6,11 +6,11 @@ use App\Models\interviewer;
 use App\Http\Controllers\Controller;
 use App\Models\candidate;
 use App\Models\job;
+use App\Providers\LogServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Response;
+
 
 class InterviewerController extends Controller
 {
@@ -54,6 +54,7 @@ class InterviewerController extends Controller
 
         $job->interviewer_id = Auth::guard('interviewer')->id();
         $job->save();
+        LogServiceProvider::newLog($job->id);
         return redirect()->route('interviewer.jobs');
     }
 

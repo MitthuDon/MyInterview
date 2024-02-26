@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InterviewScheduledMail;
 use App\Models\Interview;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
 use App\Models\candidate;
+use App\Providers\LogServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 
 class InterviewController extends Controller
@@ -21,19 +25,14 @@ class InterviewController extends Controller
     {
         //
         $interviewerID = Auth::guard('interviewer')->id();
-        $interviews = Interview::where('interviewer_id','=',$interviewerID);
+        $interviews = Interview::where('interviewer_id','=',$interviewerID)
+        ->where('status','=','pending');
         $interviews = DB::table('candidates as c')
         ->joinSub($interviews, 'i', function ($join) {
             $join->on('c.id', '=', 'i.candidate_id');
-        })->select('i.id','i.schedule','i.status','i.job_id','i.candidate_id','c.id','c.name','c.email')->get();
-        // $interviews = DB::table('jobs as j')
-        // ->joinSub($interviews, 'i', function ($join) {
-        //     $join->on('j.id', '=', 'i.job_id');
-        // })
+        })->select('i.id','i.schedule','i.status','i.job_id','i.candidate_id','c.name','c.email')
+        ->orderBy('schedule','asc')->get();
         
-
-        
-        // return Response::json($interviews);
         return view('interview.index',compact('interviews'));
     }
 
@@ -43,6 +42,7 @@ class InterviewController extends Controller
     public function create()
     {
         //
+        return view('interview.update');
     }
 
     /**
@@ -57,6 +57,9 @@ class InterviewController extends Controller
         $interview->job_id=$request->input('jobID');
         $interview->interviewer_id=$request->input('interviewerID');
         $interview->save();
+        $candidate = candidate::find($request->input('candidateID'));
+        Mail::to($candidate->email)->send(new InterviewScheduledMail($candidate->name,$request->input('schedule')));
+        LogServiceProvider::schedule($interview->job_id,$interview->candidate_id, $interview->schedule);
         return redirect()->route('interview.index');
     }
 
@@ -79,9 +82,40 @@ class InterviewController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateInterviewRequest $request, Interview $interview)
+    
+     public function updateView(int $id){
+        return view('interview.update', compact('id'));
+     }
+     public function status(Request $request)
     {
-        //
+        Interview::find($request->input('id'))->update(['status'=>$request->input('feedback')]);
+        return Redirect::route('interview.index');
+    }
+     
+    public function reschedule(Request $request){
+        $id = $request->input('interviewID');
+        $schedule = $request->input('schedule');
+        $interview = Interview::find($id);
+        $interview->schedule = $schedule; 
+        $interview->save();
+        $candidate = candidate::find($request->input('candidateID'));
+        Mail::to($candidate->email)->send(new InterviewScheduledMail($candidate->name,$request->input('schedule')));
+        LogServiceProvider::schedule($interview->job_id,$interview->candidate_id, $interview->schedule);
+        return redirect()->route('interview.index');
+       
+    }
+
+    public function completed(){
+        $interviewerID = Auth::guard('interviewer')->id();
+        $interviews = Interview::where('interviewer_id','=',$interviewerID)
+        ->where('status','!=','pending');
+        $interviews = DB::table('candidates as c')
+        ->joinSub($interviews, 'i', function ($join) {
+            $join->on('c.id', '=', 'i.candidate_id');
+        })->select('i.id','i.schedule','i.status','i.job_id','i.candidate_id','c.name','c.email')
+        ->orderBy('schedule','asc')->get();
+        return view('interview.completed',compact('interviews'));
+       
     }
 
     /**
