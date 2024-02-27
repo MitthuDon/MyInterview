@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 
 class CandidateController extends Controller
 {
@@ -176,6 +177,14 @@ class CandidateController extends Controller
         Auth::guard('candidate')->logout();
          return redirect('/');
     
+        // Redirect the user to a logged out page or any other page
+        
+    }
+    public function upload(Request $request)
+    {
+        $filename = $request->input('job_id')."_".$request->input('candidateId').".pdf";
+        Storage::putFileAs('public/resumes', $request->file('pdf_file'), $filename);
+        return redirect()->route('candidate.jobs');
         // Redirect the user to a logged out page or any other page
         
     }

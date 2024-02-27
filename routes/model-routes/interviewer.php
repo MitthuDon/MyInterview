@@ -8,6 +8,7 @@ Route::post('/logout',[InterviewerController::class, 'logout'])->name('interview
 Route::get('/jobs',[InterviewerController::class, 'jobs'])->name('interviewer.jobs');
 Route::get('/applicants/{jobid}',[InterviewerController::class, 'applicants'])->name('interviewer.applicants');
 Route::post('/create',[InterviewerController::class, 'addjob'])->name('interviewer.addjob');
+Route::get('/resume/{filename}',[InterviewerController::class, 'resume'])->name('resume.show'); 
 
 });
 Route::get('/interviewer/register', [InterviewerController::class, 'register'])->name('interviewer.register');

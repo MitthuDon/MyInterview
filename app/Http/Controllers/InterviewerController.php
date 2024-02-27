@@ -10,7 +10,7 @@ use App\Providers\LogServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Storage;
 
 class InterviewerController extends Controller
 {
@@ -181,5 +181,12 @@ class InterviewerController extends Controller
     {
         Auth::guard('interviewer')->logout();
          return redirect('/');
+    }
+    public function resume(string $filename)
+    {
+        $path = storage_path('app/resumes/'.$filename);
+        $file = Storage::get($path);
+        $type = Storage::mimeType($path);
+        return response($file)->header('Content-Type', $type);
     }
 }

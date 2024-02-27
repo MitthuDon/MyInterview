@@ -9,6 +9,7 @@ Route::get('/jobs',[CandidateController::class, 'jobs'])->name('candidate.jobs')
 Route::get('/myjobs',[CandidateController::class, 'myjobs'])->name('candidate.myjobs');
 Route::get('/myinterviews',[CandidateController::class, 'myinterviews'])->name('candidate.myinterviews');
 Route::post('/logout',[CandidateController::class, 'logout'])->name('candidate.logout');
+Route::post('/upload',[CandidateController::class, 'upload'])->name('upload.pdf');
 });
 Route::get('/candidate/register', [CandidateController::class, 'register'])->name('candidate.register');
 Route::post('/candidate/register', [CandidateController::class, 'save'])->name('candidate.save');

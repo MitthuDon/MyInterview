@@ -22,6 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+
 Route::get('interview/completed', [InterviewController::class, 'completed'])->middleware('interviewer')->name('interview.completed');
 Route::post('interview/status', [InterviewController::class, 'status'])->middleware('interviewer')->name('interview.status');
 Route::get('interview/update/{id}', [InterviewController::class, 'updateView'])->middleware('interviewer')->name('interview.updateview');

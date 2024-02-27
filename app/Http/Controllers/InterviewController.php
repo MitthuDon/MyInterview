@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Mail\InterviewScheduledMail;
 use App\Models\Interview;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreInterviewRequest;
-use App\Http\Requests\UpdateInterviewRequest;
 use App\Models\candidate;
 use App\Providers\LogServiceProvider;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Response;
 
 class InterviewController extends Controller
 {
@@ -91,6 +88,7 @@ class InterviewController extends Controller
         Interview::find($request->input('id'))->update(['status'=>$request->input('feedback')]);
         return Redirect::route('interview.index');
     }
+    
      
     public function reschedule(Request $request){
         $id = $request->input('interviewID');

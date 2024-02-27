@@ -34,6 +34,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Degree</th>
+            <th>Resume</th>
             <th>Schedule Interview</th>
           </tr>
     @foreach ($candidates as $candidate)
@@ -42,6 +43,10 @@
             <td>{{$candidate->name}}</td>
             <td>{{$candidate->email}}</td>
             <td>{{$candidate->degree}}</td>
+            <td>
+
+              <button onclick="window.open('{{ asset("storage/resumes/{$jobid}_{$candidate->id}.pdf") }}', '_blank')">Resume</button>
+            </td>
             <td><form action="{{route('interview.store')}}" method="POST">
               @csrf <!-- {{ csrf_field() }} -->
               <label for="schedule">Schedule (date and time):</label>
