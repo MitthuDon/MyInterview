@@ -12,3 +12,4 @@ ENV PHP_MEMORY_LIMIT 512M
 WORKDIR /app
 ADD "https://github.com/Aaditya0017/myInterview.git" $ROOT
 RUN chown -R application:application .
+CMD [ "php", "artisan","migrate" ]
